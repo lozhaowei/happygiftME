@@ -16,11 +16,15 @@ logger = logging.getLogger(__name__)
 Wishlist, CHOOSING, MAKE= range(3)
 
 def start(update: Update, context:CallbackContext) -> int:
-    update.message.reply_text("WELCOME TO HAPPYGIFT ME!!!\n\n To enter an item into your wishlist, use the command /make.\n\n To see your wishlist, please use the /wishlist command.\n\n To see another person's wishlist, please use the /see command")
+    update.message.reply_text("""WELCOME TO HAPPYGIFT ME!!!\n\n To enter an item into your 
+                              wishlist, use the command /make.\n\n To see your wishlist, please use the 
+                              /wishlist command.\n\n To see another person's wishlist, please use the 
+                              /see command""")
     return Wishlist
 
 def make(update: Update, context:CallbackContext) -> int:
-    update.message.reply_text("To enter an item into your wishlist, send a message to the bot in the format 'index. item' (eg. '1. Toy'). \nPlease only enter 1 item at a time.")
+    update.message.reply_text("""To enter an item into your wishlist, send a message to the bot in the format
+                              'index. item' (eg. '1. Toy'). \nPlease only enter 1 item at a time.""")
     return MAKE
 
 def wishlist(update: Update, context: CallbackContext) -> int:
@@ -59,7 +63,8 @@ dispatcher.add_handler(ConversationHandler(
     states={
         Wishlist: [CommandHandler('make', make), CommandHandler('wishlist', wishlist), CommandHandler('see', gethandle)],
         CHOOSING : [MessageHandler(Filters.text & ~(Filters.command), otherswishlist), CommandHandler('see', gethandle)],
-        MAKE: [MessageHandler(Filters.regex("(.+). (.+)"), receive_info), CommandHandler('done', done), CommandHandler('wishlist', wishlist), CommandHandler('done', done), CommandHandler('see', gethandle)]            },
+        MAKE: [MessageHandler(Filters.regex("(.+). (.+)"), receive_info), CommandHandler('done', done), 
+               CommandHandler('wishlist', wishlist), CommandHandler('done', done), CommandHandler('see', gethandle)]            },
     fallbacks = 
     [MessageHandler(Filters.regex('^Done$'), done)])
 )
